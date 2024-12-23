@@ -1,0 +1,145 @@
+.main {
+  min-height: var(--content-height);
+  padding-top: 3vh;
+}
+.header {
+  text-align: center;
+  font-weight: 500;
+  font-size: var(--header-font-size);
+  border-bottom: 1px solid var(--navbar-light);
+  width: 40vw;
+  margin: auto;
+  margin-bottom: 20px;
+  color: var(--light-text);
+}
+.photos {
+  padding: 40px;
+  max-width: var(--content-width);
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.imgContainer {
+  position: relative;
+  width: 23%; /* Adjust according to your needs */
+  height: 300px; /* Adjust according to your needs */
+  margin: 1%;
+}
+
+.img,
+.enlarge {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.enlarge {
+  z-index: 1;
+  display: flex;
+  opacity: 0;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(133, 127, 127, 0.5); 
+}
+.imgContainer:hover .enlarge {
+  background-color: rgba(253, 248, 248, 0.418);
+  cursor: pointer;
+  opacity: 1;
+  }
+
+.iconL {
+  width: 50%; 
+  height: 50%; 
+}
+
+
+
+.slider {
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  top: 0;
+  left: 0;
+  z-index:999999999;
+  display: grid;
+  grid-template-columns: 5% 90% 5%;
+  align-items: center; /* Center items vertically */
+  background-color: rgb(8, 40, 41);
+}
+
+.slides {
+  display: flex;
+  overflow-x: hidden;
+  height: 100%;
+  width: 100%;
+}
+
+.activeSlide {
+max-height: 100%;
+margin: auto;
+}
+.close{
+  position: absolute;
+ height: clamp(50px,5vw,150px);
+  margin-left: 85%;
+}
+.close:hover{
+  cursor: pointer;
+  opacity: 0.8;
+}
+.leftArrow {
+  grid-column: 1; 
+}
+.rightArrow {
+  grid-column: 3; 
+}
+.arrow {
+  cursor: pointer;
+  z-index: 1;
+  margin: auto;
+}
+.arrows{
+  height: 100vh;
+  display: flex;
+  z-index: 123;
+  background-color: var(--navbar-light);
+}
+.arrows:hover{
+  background-color: rgba(191, 201, 201, 0.623);
+      cursor: pointer;
+}
+
+@media screen and (max-width: 1200px) {
+  .imgContainer {
+    width: 31%;
+  }
+}
+@media screen and (max-width: 800px) {
+  .imgContainer {
+    width: 48%;
+  }
+  .slider{
+    grid-template-columns: 8% 84% 8%;
+  }
+  .activeSlide{
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+  }
+  .close{
+    margin-left: 75%;
+  }
+  
+}
+@media screen and (max-width: 500px) {
+  .imgContainer {
+    width: 95%;
+  }
+  .close{
+    margin-left: 70%;
+  }
+}

@@ -1,0 +1,121 @@
+.main {
+  min-height: var(--content-height);
+  width: var(--content-width);
+  margin: auto;
+padding-bottom: 4vh;
+}
+
+.header {
+  text-align: center;
+  font-weight: 500;
+  font-size: var(--header-font-size);
+  border-bottom: 1px solid var(--navbar-light);
+  width: 40vw;
+  margin: auto;
+  margin-top: 20px;
+  color: var(--light-text);
+}
+
+.contact {
+  width:var(--content-width);
+  margin: auto;
+  border-radius: 15px;
+  background-color: var(--light-background);
+  margin-top: 5vh;
+  overflow: hidden;
+
+}
+
+.content {
+  width: 100%;
+  display: flex; 
+  flex-direction: column; 
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.social {
+  font-size: clamp(1rem, 5vw, 2rem);
+  margin-left: clamp(5px,1vw,40px);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.socialIcon {
+  height: 50px;
+  width: 50px;
+  border-radius: 50px;
+}
+.list {
+  padding: 0; 
+  margin: 0;
+  display: flex; 
+  flex-direction: column; 
+  list-style-type: none;
+  overflow: hidden;
+}
+
+
+.listItem > a, .listItem {
+  display: flex;
+  align-items: center;
+  color: white;
+  text-decoration: none;
+}
+.listItem:hover{
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+.listItem > a > h4, .listItem>h4 {
+  margin-left: 20px;
+  margin: 3vh;
+  
+}
+
+
+.address {
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+}
+
+.map {
+  height:clamp(250px,40vh,600px);
+  width: 90%;
+  min-width: 250px;
+
+margin: auto;
+margin-bottom:1vh;
+}
+
+.head {
+  font-size: clamp(1.1rem, 5vw, 2rem);
+
+  text-align: center;
+  color: aliceblue;
+}
+
+.street {
+  font-size: clamp(0.7rem, 4vw, 2rem);
+  text-align: center;
+  color: aliceblue;
+  margin: 1vw;
+}
+
+
+
+@media screen and (min-width: 1200px) {
+  .content {
+    flex-direction: row; 
+    justify-content: space-between; 
+    height:70vh;
+  }
+  .social,
+  .address {
+    width: 50%; 
+    height: 100%;
+  }
+}

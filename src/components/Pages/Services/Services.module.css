@@ -1,0 +1,67 @@
+.main {
+  color: var(--light-text);
+  min-height: var(--content-height);
+  padding: 3vh;
+}
+
+.serviceList {
+  border-radius: 15px;
+  width: var(--content-width);
+  min-width: 275px;
+  margin: auto;
+  min-height: 70vh;
+}
+.header {
+  text-align: center;
+  font-weight: 500;
+  font-size: var(--header-font-size);
+  border-bottom: 1px solid var(--navbar-light);
+  width: 40vw;
+  margin: auto;
+  margin-bottom: 20px;
+  color: var(--light-text);
+}
+.service {
+  width: 100%;
+}
+.collapsed {
+  display: grid;
+  border-bottom: 1px solid var(--light-text);
+  grid-template-columns: 85% 15%;
+  place-items: center;
+  opacity: 0.9;
+  margin-top: 2vh;
+  height: 70px;
+  place-content: center;
+}
+.listItem {
+  font-size: clamp(1rem, 2vw, 1.7rem);
+  margin: 20px;
+}
+.serviceHeader {
+  font-weight: 600;
+  font-size: clamp(1rem, 3vw, 2rem);
+  text-align: left;
+  width: 100%;
+  margin-left: 2vw;
+}
+.downArrow,
+.upArrow {
+  padding: 0;
+  margin: 0;
+  border: none;
+  outline: none;
+  background-color: unset;
+}
+.down,
+.up {
+  height: 40px;
+  cursor: pointer;
+  border-radius: 30px;
+}
+
+.upArrow {
+  width: 100%;
+  background-color: #485f71;
+  border-radius: 50px;
+}

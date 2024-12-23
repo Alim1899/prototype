@@ -1,0 +1,62 @@
+.main {
+  background-color: var(
+    --light-background
+  ); 
+  height: var(--footer-height);
+  color: white; 
+  text-align: center;
+  display: grid;
+  border-top: 2px solid var(--navbar-light);
+  border-top-right-radius: 15px;
+  border-top-left-radius: 15px;
+  z-index: 999999;
+}
+.content{
+  width: var(--content-width);
+  margin: auto;
+}
+.contact{
+  display: flex;
+  justify-content: space-around;
+align-items: center;
+}
+
+.phone {
+  display: flex;
+  text-decoration: none;
+  justify-content: center;
+  align-items: center;
+  color: var(--navbar-light);
+  cursor: pointer;
+  }
+.phone>h4,.address{
+  margin: 0;
+  padding: 3px;
+  font-size: clamp(0.7rem,2vw,1.5rem);
+}
+.icon {
+  height: 20px;
+}
+.socialIcon{
+  height:clamp(25px,5vw,100px);
+}
+.foot {
+  border-top: 1px solid var(--navbar-light);
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  margin: auto;
+  align-items: center;
+}
+.foot>h4{
+  margin: 0;
+  padding: 0;
+  font-size: clamp(0.6rem,2vw,1rem);
+}
+
+.logoIcon{
+  height: clamp(1.5rem,5vw,2.5rem);
+}
+.facebook>img{
+  border-radius: 50px;
+}
