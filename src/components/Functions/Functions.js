@@ -55,14 +55,17 @@ export const fetchDataSequentially = async (
   }
 };
 
-export const getProject = async (ids,dispatch) => {
+export const getProject = async (ids, dispatch) => {
   const db = getDatabase();
   for (const id of ids) {
     try {
       const projectsRef = ref(db, `projects/${id}`);
-      const snapshot = await get(projectsRef);  // Wait for the promise to resolve
+      const snapshot = await get(projectsRef); // Wait for the promise to resolve
       if (snapshot.exists()) {
-      dispatch({type:"addProject",payload:snapshot.val()})
+        dispatch({
+          type: "addProject",
+          payload: { id: id, value: snapshot.val() },
+        });
       } else {
         console.log("No data available for id:", id);
       }

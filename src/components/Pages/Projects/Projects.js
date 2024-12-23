@@ -1,11 +1,10 @@
-import React, { useState,useReducer, useEffect } from "react";
+import React, { useState, useReducer, useEffect } from "react";
 import classes from "./Projects.module.css";
 import locate from "../../../assets/icons/location.svg";
 import left from "../../../assets/icons/leftslide.svg";
 import right from "../../../assets/icons/rightslide.svg";
 import { useTranslation } from "react-i18next";
-import {getProject, getIds } from "../../Functions/Functions";
-
+import { getProject, getIds } from "../../Functions/Functions";
 
 const Project = ({ project, id }) => {
   const [activeSlide, setActiveSlide] = useState(0);
@@ -23,19 +22,19 @@ const Project = ({ project, id }) => {
     );
   };
   const lang = sessionStorage.getItem("lng");
-
+// console.log(id);
   return (
     <div className={classes.project}>
       <div className={classes.content}>
         <div className={classes.slider}>
           <img
             alt="left"
-            onClick={() => leftSlide(Object.entries(project.images).length)}
+            onClick={() => leftSlide(project.images.length)}
             src={left}
             className={`${classes.arrow} ${classes.leftArrow}`}
           />
           <div className={classes.slides}>
-            {Object.entries(project.images).map((image, index) => (
+            {project.images.map((image, index) => (
               <img
                 key={index}
                 className={classes.contentImg}
@@ -48,7 +47,7 @@ const Project = ({ project, id }) => {
           <img
             alt="right"
             src={right}
-            onClick={() => rightSlide(Object.entries(project.images).length)}
+            onClick={() => rightSlide(project.images.length)}
             className={`${classes.arrow} ${classes.rightArrow}`}
           />
         </div>
@@ -70,8 +69,6 @@ const Project = ({ project, id }) => {
   );
 };
 
-
-
 const initialState = {
   data: [],
   projectsLoaded: false,
@@ -92,20 +89,24 @@ const reducer = (state, action) => {
 };
 const Projects = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const {ids,projectsLoaded,data} = state;
+  const { ids, projectsLoaded, data } = state;
   const { t } = useTranslation();
 
   useEffect(() => {
-  getIds(dispatch);
+    getIds(dispatch);
   }, []);
 
-useEffect(()=>{
-  console.log(data);
-  if(ids.length>0&&!projectsLoaded){
-    getProject(ids,dispatch)
-    dispatch({type:"loaded",payload:true})
-  }
-},[ids,projectsLoaded])
+  useEffect(() => {
+    if (ids.length > 0 && !projectsLoaded) {
+      getProject(ids, dispatch);
+    }
+  }, [ids, projectsLoaded]);
+  useEffect(() => {
+    if (data.length > 0) dispatch({ type: "loaded", payload: true });
+  }, [data]);
+  const uniqueProjects = Array.from(
+    new Map(data.map((project) => [project.id, project])).values()
+  )
   return (
     <div className={classes.main}>
       <h1 className={classes.header}>{t("projectsPage.header")}</h1>
@@ -121,15 +122,13 @@ useEffect(()=>{
 
       {projectsLoaded && (
         <div className={classes.projectList}>
-          {data.map((project) => {
-            return <Project project={project} key={project.id} />;
+          {uniqueProjects.map((project) => {
+            return <Project project={project.value} id={project.id} key={project.id} />;
           })}
         </div>
       )}
     </div>
   );
 };
-
-
 
 export default Projects;

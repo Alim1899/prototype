@@ -15,7 +15,7 @@ const Project = () => {
   const [slider, showSlider] = useState(false);
   const [activeSlide, setActiveSlide] = useState(0);
   const lang = sessionStorage.getItem("lng");
-console.log(id);
+
   useEffect(()=>{
     const retrieveData = async () => {
       const db = getDatabase();
@@ -23,7 +23,6 @@ console.log(id);
       try {
         const snapshot = await get(projectsRef);
         if (snapshot.exists()) {
-         console.log(snapshot.val());
          setProject(snapshot.val())
         } else {
           console.log("No data available");
@@ -34,7 +33,6 @@ console.log(id);
     };
     retrieveData()
   },[id])
-  
 
   if (!project) {
     return (
@@ -49,30 +47,34 @@ console.log(id);
 
   const leftSlide = () => {
     setActiveSlide((prevIndex) =>
-      prevIndex === 0 ? Object.keys(project.images).length - 1 : prevIndex - 1
+      prevIndex === 0 ? project.images.length - 1 : prevIndex - 1
     );
   };
 
   const rightSlide = () => {
+    console.log(activeSlide);
     setActiveSlide((prevIndex) =>
-      prevIndex === Object.keys(project.images).length - 1 ? 0 : prevIndex + 1
+      prevIndex === project.images.length - 1 ? 0 : prevIndex + 1
     );
   };
 
   const openSlider = (index) => {
-    setActiveSlide(index);
-    showSlider(true);
+     setActiveSlide(index);
+     showSlider(true);
+    console.log(index, activeSlide);
   };
+
+  let timeoutId;
 
   const handleKeyDown = (event) => {
     if (event.key === "Escape") {
-      setTimeout(() => {
-        showSlider(false);
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        showSlider(false); 
       }, 300);
     }
   };
   window.addEventListener("keydown", handleKeyDown);
-
   return (
     <div className={classes.project}>
       <div className={classes.content}>
@@ -101,18 +103,20 @@ console.log(id);
             {t("projectsPage.project.galleryHeader")}
           </h1>
           <div className={classes.photos}>
-            {Object.keys(project.images).map((key, index) => (
-              <div key={key} className={classes.imgs}>
+            {(project.images).map((img,index) => (
+              <div key={img[1].key} className={classes.imgs}>
                 <img
                   className={classes.img}
                   alt="project-img"
-                  src={project.images[key].url}
+                  src={img[1].url}
+                 index={index}
                 ></img>
                 <div className={classes.enlarge}>
                   <img
+                   id={Number(index)}
                     src={enlarge}
                     alt="enlarge"
-                    onClick={() => openSlider(index)}
+                     onClick={(e) => openSlider(e.target.id)}
                   ></img>
                 </div>
               </div>
@@ -130,12 +134,13 @@ console.log(id);
             />
           </div>
           <div className={classes.slides}>
-            {Object.keys(project.images).map((key, index) => (
+            {(project.images).map((img, index) => (
               <img
-                key={key}
+                key={img[1].key}
                 className={classes.contentImg}
-                alt={project.images[key].key}
-                src={project.images[key].url}
+                alt={img[0]}
+                index={index}
+                src={img[1].url}
                 onClick={() => showSlider(false)}
                 style={{
                   transform: `translateX(-${activeSlide * 100}%)`,
