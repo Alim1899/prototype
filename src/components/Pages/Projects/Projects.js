@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState,useReducer, useEffect } from "react";
 import classes from "./Projects.module.css";
 import locate from "../../../assets/icons/location.svg";
 import left from "../../../assets/icons/leftslide.svg";
 import right from "../../../assets/icons/rightslide.svg";
 import { useTranslation } from "react-i18next";
-import { getDatabase, ref, get } from "firebase/database";
+import {getProject, getIds } from "../../Functions/Functions";
+
 
 const Project = ({ project, id }) => {
   const [activeSlide, setActiveSlide] = useState(0);
@@ -69,43 +70,42 @@ const Project = ({ project, id }) => {
   );
 };
 
+
+
+const initialState = {
+  data: [],
+  projectsLoaded: false,
+  ids: [],
+};
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case "getIds":
+      return { ...state, ids: action.payload };
+    case "addProject":
+      return { ...state, data: [...state.data, action.payload] };
+    case "loaded":
+      return { ...state, projectsLoaded: action.payload };
+    default:
+      return state;
+  }
+};
 const Projects = () => {
-  const [projectsLoaded, setProjectsLoaded] = useState(false);
-  const [data, setData] = useState([]);
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const {ids,projectsLoaded,data} = state;
   const { t } = useTranslation();
 
   useEffect(() => {
-    const ids = [
-      "-O-7x4bHWQU7tgwlIuc7",
-      "-O-7xslUPl9oKYhOj3PT",
-      "-O0TP0666T3AQ7YpD3Mf",
-      "-O3XmLVHplyf6JwL_3nX",
-      "-OCArnzg6BwHMBAIvWn3",
-    ];
-    const projects = [];
-    const fetchDataSequentially = async () => {
-      const db = getDatabase();       
-      for (const id of ids) {
-        try {
-          const projectsRef = ref(db, `projects/${id}`);
-          const snapshot = await get(projectsRef);
-          if (snapshot.exists()) {
-            projects.push(snapshot.val());
-            setData(projects);
-            setProjectsLoaded(true)
-          } else {
-            console.log("No data available for id:", id);
-          }
-        } catch (error) {
-          console.error("Error fetching data for id:", id, error);
-        }
-      }
-    };
-   
-    fetchDataSequentially();
+  getIds(dispatch);
   }, []);
 
+useEffect(()=>{
   console.log(data);
+  if(ids.length>0&&!projectsLoaded){
+    getProject(ids,dispatch)
+    dispatch({type:"loaded",payload:true})
+  }
+},[ids,projectsLoaded])
   return (
     <div className={classes.main}>
       <h1 className={classes.header}>{t("projectsPage.header")}</h1>
@@ -118,15 +118,18 @@ const Projects = () => {
           </div>
         </div>
       )}
+
       {projectsLoaded && (
         <div className={classes.projectList}>
           {data.map((project) => {
-          return <Project project={project} key={project.id} />
+            return <Project project={project} key={project.id} />;
           })}
         </div>
       )}
     </div>
   );
 };
+
+
 
 export default Projects;
