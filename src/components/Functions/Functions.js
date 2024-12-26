@@ -37,12 +37,10 @@ export const fetchDataSequentially = async (
   const projects = [];
   const db = getDatabase();
   for (const id of ids) {
-    console.log(id);
     try {
       const projectsRef = ref(db, `projects/${id}`);
       const snapshot = await get(projectsRef);
       if (snapshot.exists()) {
-        console.log(snapshot.val());
         projects.push(snapshot.val());
         setData(projects);
         setProjectsLoaded(true);

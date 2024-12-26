@@ -17,7 +17,6 @@ const Services = () => {
     const newChangeArrow = [...showArrow];
     newChangeArrow[index] = !newChangeArrow[index];
     setShowArrow(newChangeArrow);
-    console.log(showArrow);
   };
 
   return (
@@ -28,13 +27,12 @@ const Services = () => {
           {data.map((el, index) => {
             return (
               <div className={classes.service} key={index}>
-                <div onClick={() => extend(index)} className={classes.collapsed}>
-                  <h3  className={classes.serviceHeader}>{el[0].header}</h3>
-                  <button
-                    className={classes.downArrow}
-                 
-                    type="button"
-                  >
+                <div
+                  onClick={() => extend(index)}
+                  className={classes.collapsed}
+                >
+                  <h3 className={classes.serviceHeader}>{el[0].header}</h3>
+                  <button className={classes.downArrow} type="button">
                     <img
                       className={classes.down}
                       alt="down"
@@ -48,7 +46,11 @@ const Services = () => {
                     <ul>
                       {el[1].subHeaders.map((item, subIndex) => {
                         return (
-                          <li className={classes.listItem}  onClick={() => extend(index)} key={subIndex}>
+                          <li
+                            className={classes.listItem}
+                            onClick={() => extend(index)}
+                            key={subIndex}
+                          >
                             {item.subhead}
                           </li>
                         );

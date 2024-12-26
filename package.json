@@ -1,7 +1,7 @@
 {
   "name": "nue",
   "version": "0.1.1",
-  "homepage": "aa.com.ge",
+  "homepage": "https://aa.com.ge/",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",

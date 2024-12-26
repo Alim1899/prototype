@@ -22,7 +22,6 @@ const Project = ({ project, id }) => {
     );
   };
   const lang = sessionStorage.getItem("lng");
-// console.log(id);
   return (
     <div className={classes.project}>
       <div className={classes.content}>
