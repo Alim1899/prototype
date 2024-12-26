@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main # Trigger deployment on pushes to the 'main' branch
- name: Deploy website on push
 
 jobs:
   deploy:
@@ -33,4 +32,3 @@ jobs:
           password: ${{ secrets.CPANEL_FTP_PASSWORD }} # Your cPanel password
           local-dir: build # Folder with your built project
           server-dir: /public_html # Path to your public_html directory
-
