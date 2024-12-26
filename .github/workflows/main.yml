@@ -31,4 +31,4 @@ jobs:
           username: ${{ secrets.CPANEL_FTP_USERNAME }} # Your cPanel username
           password: ${{ secrets.CPANEL_FTP_PASSWORD }} # Your cPanel password
           local-dir: build/ # Folder with your built project
-          server-dir: /public_html # Path to your public_html directory
+          server-dir: /public_html/ # Path to your public_html directory
