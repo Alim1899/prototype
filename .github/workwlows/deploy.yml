@@ -1,12 +1,12 @@
-name: Deploy Application
+name: Deploy to cPanel
 
 on:
   push:
     branches:
-      - main # Trigger on pushes to the 'main' branch
+      - main # Trigger deployment on pushes to the 'main' branch
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -16,17 +16,19 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 20 # Specify the Node.js version
+          node-version: 20 # Your Node.js version
 
       - name: Install Dependencies
         run: npm install
 
       - name: Build Project
-        run: npm run build
+        run: npm run build # Adjust if your build command is different
 
-      - name: Deploy to Hosting
-        uses: JamesIves/github-pages-deploy-action@v4
+      - name: Deploy via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4
         with:
-          branch: gh-pages # Branch to deploy to
-          folder: build # The folder with your build files
-          token: ${{ secrets.GITHUB_TOKEN }} # GitHub token for deployment
+          server: ${{ secrets.CPANEL_FTP_SERVER }} # e.g., ftp.yourdomain.com
+          username: ${{ secrets.CPANEL_FTP_USERNAME }} # Your cPanel username
+          password: ${{ secrets.CPANEL_FTP_PASSWORD }} # Your cPanel password
+          local-dir: build # Folder with your built project
+          server-dir: /public_html # Path to your public_html directory

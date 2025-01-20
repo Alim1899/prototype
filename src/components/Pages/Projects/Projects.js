@@ -1,15 +1,14 @@
-import React, { useState, useReducer, useEffect } from "react";
+import React, { useState } from "react";
 import classes from "./Projects.module.css";
 import locate from "../../../assets/icons/location.svg";
 import left from "../../../assets/icons/leftslide.svg";
 import right from "../../../assets/icons/rightslide.svg";
 import { useTranslation } from "react-i18next";
-import { getProject, getIds } from "../../Functions/Functions";
-
+import { useProjects } from "./Context/ProjectsContext";
 const Project = ({ project, id }) => {
   const [activeSlide, setActiveSlide] = useState(0);
   const { t } = useTranslation();
-
+  const photos = Object.entries(project.images);
   const leftSlide = (length) => {
     setActiveSlide((prevIndex) =>
       prevIndex === 0 ? length - 1 : prevIndex - 1
@@ -28,12 +27,12 @@ const Project = ({ project, id }) => {
         <div className={classes.slider}>
           <img
             alt="left"
-            onClick={() => leftSlide(project.images.length)}
+            onClick={() => leftSlide(photos.length)}
             src={left}
             className={`${classes.arrow} ${classes.leftArrow}`}
           />
           <div className={classes.slides}>
-            {project.images.map((image, index) => (
+            {photos.map((image, index) => (
               <img
                 key={index}
                 className={classes.contentImg}
@@ -46,7 +45,7 @@ const Project = ({ project, id }) => {
           <img
             alt="right"
             src={right}
-            onClick={() => rightSlide(project.images.length)}
+            onClick={() => rightSlide(photos.length)}
             className={`${classes.arrow} ${classes.rightArrow}`}
           />
         </div>
@@ -68,44 +67,12 @@ const Project = ({ project, id }) => {
   );
 };
 
-const initialState = {
-  data: [],
-  projectsLoaded: false,
-  ids: [],
-};
-
-const reducer = (state, action) => {
-  switch (action.type) {
-    case "getIds":
-      return { ...state, ids: action.payload };
-    case "addProject":
-      return { ...state, data: [...state.data, action.payload] };
-    case "loaded":
-      return { ...state, projectsLoaded: action.payload };
-    default:
-      return state;
-  }
-};
 const Projects = () => {
-  const [state, dispatch] = useReducer(reducer, initialState);
-  const { ids, projectsLoaded, data } = state;
   const { t } = useTranslation();
-
-  useEffect(() => {
-    getIds(dispatch);
-  }, []);
-
-  useEffect(() => {
-    if (ids.length > 0 && !projectsLoaded) {
-      getProject(ids, dispatch);
-    }
-  }, [ids, projectsLoaded]);
-  useEffect(() => {
-    if (data.length > 0) dispatch({ type: "loaded", payload: true });
-  }, [data]);
-  const uniqueProjects = Array.from(
-    new Map(data.map((project) => [project.id, project])).values()
-  )
+  const { data, projectsLoaded } = useProjects();
+  const uniqueProjects = data.filter((value, index, self) => {
+    return index === self.findIndex((t) => t.id === value.id);
+  });
   return (
     <div className={classes.main}>
       <h1 className={classes.header}>{t("projectsPage.header")}</h1>
@@ -122,7 +89,13 @@ const Projects = () => {
       {projectsLoaded && (
         <div className={classes.projectList}>
           {uniqueProjects.map((project) => {
-            return <Project project={project.value} id={project.id} key={project.id} />;
+            return (
+              <Project
+                project={project.value}
+                id={project.id}
+                key={project.id}
+              />
+            );
           })}
         </div>
       )}

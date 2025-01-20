@@ -75,6 +75,7 @@ const Project = () => {
       </div>
     );
   }
+ const photos = Object.entries(project.images)
   return (
     <div className={classes.project}>
       <div className={classes.content}>
@@ -102,7 +103,7 @@ const Project = () => {
             {t("projectsPage.project.galleryHeader")}
           </h1>
           <div className={classes.photos}>
-            {project.images.map((img, index) => (
+            {photos.map((img, index) => (
               <div key={img[1].key} className={classes.imgs}>
                 <img
                   key={index}
@@ -127,12 +128,12 @@ const Project = () => {
         <div className={classes.slider}>
           <img
             alt="left"
-            onClick={() => leftSlide(project.images.length)}
+            onClick={() => leftSlide(photos.length)}
             src={left}
             className={`${classes.arrow} ${classes.leftArrow}`}
           />
           <div className={classes.slides}>
-            {project.images.map((image, index) => (
+            {photos.map((image, index) => (
               <img
                 key={index}
                 className={classes.contentImg}
@@ -146,7 +147,7 @@ const Project = () => {
           <img
             alt="right"
             src={right}
-            onClick={() => rightSlide(project.images.length)}
+            onClick={() => rightSlide(photos.length)}
             className={`${classes.arrow} ${classes.rightArrow}`}
           />
         </div>

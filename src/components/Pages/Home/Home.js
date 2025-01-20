@@ -6,12 +6,13 @@ import up from "../../../assets/home/up.svg";
 import down from "../../../assets/home/right.svg";
 import { useTranslation } from "react-i18next";
 import services from "../../../assets/home/services.svg";
-
 const Home = () => {
   const { t } = useTranslation();
+  
   const [extendedIndex, setExtendedIndex] = useState(null);
   const [isServiceListVisible, setIsServiceListVisible] = useState(false);
   const data = ServiceList();
+  
 
   const extend = (index) => {
     setExtendedIndex((prevIndex) => (prevIndex === index ? null : index));
