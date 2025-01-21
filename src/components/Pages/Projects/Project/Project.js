@@ -75,7 +75,8 @@ const Project = () => {
       </div>
     );
   }
- const photos = Object.entries(project.images)
+ const photos = project.images;
+
   return (
     <div className={classes.project}>
       <div className={classes.content}>

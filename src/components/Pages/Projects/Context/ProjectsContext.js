@@ -18,7 +18,11 @@ const initialState = {
 const reducer = (state, action) => {
   switch (action.type) {
     case "get/ids":
-      return { ...state, ids: action.payload, length: action.payload.length };
+      return {
+        ...state,
+        ids: Object.entries(action.payload),
+        length: state.ids.length,
+      };
     case "get/project":
       return {
         ...state,
@@ -47,13 +51,11 @@ const ProjectsProvider = ({ children }) => {
 
   useEffect(() => {
     if (length === 0) return;
-        ids.forEach((id) => {
-  
-        getProjects(id, dispatch);
-        
+    ids.forEach((id) => {
+      getProjects(id[1], dispatch);
     });
   }, [length, ids]);
- 
+
   return (
     <ProjectsContext.Provider value={contextValue}>
       {children}

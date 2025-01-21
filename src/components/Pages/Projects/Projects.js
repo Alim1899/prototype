@@ -8,7 +8,7 @@ import { useProjects } from "./Context/ProjectsContext";
 const Project = ({ project, id }) => {
   const [activeSlide, setActiveSlide] = useState(0);
   const { t } = useTranslation();
-  const photos = Object.entries(project.images);
+  const photos = project.images;
   const leftSlide = (length) => {
     setActiveSlide((prevIndex) =>
       prevIndex === 0 ? length - 1 : prevIndex - 1
