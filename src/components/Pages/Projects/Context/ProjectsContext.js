@@ -21,7 +21,7 @@ const reducer = (state, action) => {
       return {
         ...state,
         ids: Object.entries(action.payload),
-        length: state.ids.length,
+        length: Object.entries(action.payload).length,
       };
     case "get/project":
       return {
@@ -50,7 +50,10 @@ const ProjectsProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
+    console.log(length,ids);
+
     if (length === 0) return;
+
     ids.forEach((id) => {
       getProjects(id[1], dispatch);
     });
