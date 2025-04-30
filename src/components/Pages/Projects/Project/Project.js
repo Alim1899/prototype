@@ -75,7 +75,7 @@ const Project = () => {
       </div>
     );
   }
- const photos = project.images;
+  const photos = project.images;
 
   return (
     <div className={classes.project}>

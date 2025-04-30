@@ -29,10 +29,13 @@ export const getProjects = async (id, dispatch) => {
 export const getLocations = async (id) => {
   const db = getDatabase();
   try {
-    const projectsRef = ref(db, `projects/${id}/coords`);
-    const snapshot = await get(projectsRef);
-    if (snapshot.exists()) {
-      return snapshot.val();
+    const coordsRef = ref(db, `projects/${id}/coords`);
+    const headerRef = ref(db, `projects/${id}/header`);
+
+    const coords = await get(coordsRef);
+    const headers = await get(headerRef);
+    if (coords.exists() && headers.exists()) {
+      return { coords: coords.val(), headers: headers.val() };
     } else {
       console.log("No data available for id:", id);
     }

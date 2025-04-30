@@ -2,11 +2,14 @@ import { useEffect, useState } from "react";
 import { getLocations } from "../../Functions/Functions";
 import marker from "../../../assets/icons/marker.png";
 import { useProjects } from "../Projects/Context/ProjectsContext";
-import { MapContainer, Marker, TileLayer } from "react-leaflet";
+import { MapContainer, Marker, TileLayer, GeoJSON, Popup } from "react-leaflet";
+import georgia from "../../../assets/mygeodata/georgia.json";
 import L from "leaflet";
 const Locations = () => {
   const { ids } = useProjects();
   const [coords, setCoords] = useState([]);
+  const lang = sessionStorage.getItem("lng");
+
   const customIcon = new L.Icon({
     iconUrl: marker,
     iconSize: [32, 32], // adjust size as needed
@@ -19,11 +22,7 @@ const Locations = () => {
         try {
           const promises = ids.map((el) => getLocations(el[1]));
           const resolvedCoords = await Promise.all(promises);
-          const parsedCoords = resolvedCoords.map((coordStr) => {
-            const [lat, lng] = coordStr.split(",").map(Number);
-            return [lat, lng];
-          });
-          setCoords(parsedCoords);
+          setCoords(resolvedCoords);
         } catch (error) {
           console.error("Error fetching coordinates:", error);
         }
@@ -32,6 +31,7 @@ const Locations = () => {
     fetchCoords();
   }, [ids]);
 
+  console.log(lang);
   return (
     <div style={{ height: "100%", width: "100%" }}>
       <MapContainer
@@ -45,10 +45,17 @@ const Locations = () => {
         />
         {coords.length > 0 &&
           coords.map((location, index) => (
-            <Marker key={index} position={location} icon={customIcon}>
-              {/* <Popup>{location.popup}</Popup> */}
+            <Marker
+              key={index}
+              position={location.coords.split(",")}
+              icon={customIcon}
+            >
+              <Popup>
+                {lang === "en" ? location.headers.en : location.headers.ge}
+              </Popup>
             </Marker>
           ))}
+        <GeoJSON data={georgia}></GeoJSON>
       </MapContainer>
     </div>
   );
