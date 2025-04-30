@@ -6,13 +6,13 @@ import up from "../../../assets/home/up.svg";
 import down from "../../../assets/home/right.svg";
 import { useTranslation } from "react-i18next";
 import services from "../../../assets/home/services.svg";
+import Locations from "./Locations";
 const Home = () => {
   const { t } = useTranslation();
-  
+
   const [extendedIndex, setExtendedIndex] = useState(null);
   const [isServiceListVisible, setIsServiceListVisible] = useState(false);
   const data = ServiceList();
-  
 
   const extend = (index) => {
     setExtendedIndex((prevIndex) => (prevIndex === index ? null : index));
@@ -27,6 +27,7 @@ const Home = () => {
       <div className={classes.content}>
         <div className={classes.services}>
           <h2 className={classes.header}>
+            <span className={classes.text}>{t("homePage.offers")}</span>
             <div className={classes.iconWrapper}>
               <img
                 className={classes.icon}
@@ -35,7 +36,6 @@ const Home = () => {
                 onClick={toggleServiceListVisibility}
               />
             </div>
-            <span className={classes.text}>{t("homePage.offers")}</span>
           </h2>
           <div
             className={
@@ -79,9 +79,13 @@ const Home = () => {
             })}
           </div>
         </div>
-        <div className={classes.slider}>
-          <Slider />
+        <div className={classes.locations}>
+          <Locations />
         </div>
+      </div>
+
+      <div className={classes.slider}>
+        <Slider />
       </div>
     </div>
   );

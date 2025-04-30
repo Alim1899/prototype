@@ -41,7 +41,7 @@ const Footer = () => {
             </a>
             <a
               className={classes.insta}
-              href="https://www.instagram.com/nikoloz_kapn/"
+              href="https://www.instagram.com/nuevaltd/"
               rel="noreferrer"
               target="_blank"
             >
@@ -55,7 +55,7 @@ const Footer = () => {
               className={classes.facebook}
               target="_blank"
               rel="noreferrer"
-              href="https://www.facebook.com/nika.kapanadze.9085"
+              href="https://www.facebook.com/nuevaltd"
             >
               <img
                 className={classes.socialIcon}

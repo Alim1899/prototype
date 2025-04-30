@@ -50,10 +50,7 @@ const ProjectsProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    console.log(length,ids);
-
     if (length === 0) return;
-
     ids.forEach((id) => {
       getProjects(id[1], dispatch);
     });

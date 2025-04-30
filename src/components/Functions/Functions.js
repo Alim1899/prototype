@@ -25,3 +25,18 @@ export const getProjects = async (id, dispatch) => {
     console.error("Error fetching data for id:", id, error);
   }
 };
+
+export const getLocations = async (id) => {
+  const db = getDatabase();
+  try {
+    const projectsRef = ref(db, `projects/${id}/coords`);
+    const snapshot = await get(projectsRef);
+    if (snapshot.exists()) {
+      return snapshot.val();
+    } else {
+      console.log("No data available for id:", id);
+    }
+  } catch (error) {
+    console.error("Error fetching data for id:", id, error);
+  }
+};

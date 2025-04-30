@@ -33,11 +33,7 @@ const router = createBrowserRouter(
 
     {
       path: "/projects",
-      element: (
-        <ProjectsProvider>
-          <Projects />
-        </ProjectsProvider>
-      ),
+      element: <Projects />,
     },
 
     {
@@ -71,7 +67,7 @@ const router = createBrowserRouter(
 );
 const Layout = () => {
   return (
-    <>
+    <ProjectsProvider>
       <div className={classes.navbar}>
         <Navbar />
       </div>
@@ -81,7 +77,7 @@ const Layout = () => {
       <div className={classes.footer}>
         <Footer />
       </div>
-    </>
+    </ProjectsProvider>
   );
 };
 
