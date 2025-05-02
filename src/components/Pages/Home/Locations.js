@@ -4,11 +4,16 @@ import marker from "../../../assets/icons/marker.png";
 import { useProjects } from "../Projects/Context/ProjectsContext";
 import { MapContainer, Marker, TileLayer, GeoJSON, Popup } from "react-leaflet";
 import georgia from "../../../assets/mygeodata/georgia.json";
+import { useTranslation } from "react-i18next";
+
+import { useNavigate } from "react-router";
 import L from "leaflet";
 const Locations = () => {
   const { ids } = useProjects();
   const [coords, setCoords] = useState([]);
   const lang = sessionStorage.getItem("lng");
+  const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const customIcon = new L.Icon({
     iconUrl: marker,
@@ -20,7 +25,13 @@ const Locations = () => {
     const fetchCoords = async () => {
       if (ids.length > 0) {
         try {
-          const promises = ids.map((el) => getLocations(el[1]));
+          const promises = ids.map(async (el) => {
+            const data = await getLocations(el[1]);
+            return {
+              ...data,
+              id: el[1], // include the id with the fetched data
+            };
+          });
           const resolvedCoords = await Promise.all(promises);
           setCoords(resolvedCoords);
         } catch (error) {
@@ -31,12 +42,11 @@ const Locations = () => {
     fetchCoords();
   }, [ids]);
 
-  console.log(lang);
   return (
     <div style={{ height: "100%", width: "100%" }}>
       <MapContainer
         center={[42.26423835098129, 42.70606967293128]}
-        zoom={6.3}
+        zoom={7}
         style={{ height: "100%", width: "100%" }}
       >
         <TileLayer
@@ -51,7 +61,33 @@ const Locations = () => {
               icon={customIcon}
             >
               <Popup>
-                {lang === "en" ? location.headers.en : location.headers.ge}
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    border: "none",
+                    padding: "5px 0",
+                    borderRadius: "4px",
+                  }}
+                >
+                  <h4 style={{ padding: "0", margin: "0" }}>
+                    {lang === "en" ? location.headers.en : location.headers.ge}
+                  </h4>
+                  <button
+                    style={{
+                      marginTop: "5px",
+                      cursor: "pointer",
+                      background: "#007bff",
+                      color: "#fff",
+                      border: "none",
+                      padding: "5px 10px",
+                      borderRadius: "4px",
+                    }}
+                    onClick={() => navigate(`/project/${location.id}`)}
+                  >
+                    {t("projectsPage.moreBtn")}
+                  </button>
+                </div>
               </Popup>
             </Marker>
           ))}
